@@ -1,18 +1,35 @@
-let url ="https://api.themoviedb.org/3/search/movie?api_key=1a85f5aeaf961ae4ee8a30df575d2baa&query=back-to-the-future"
-fetch(url)
-.then(
-    function(response)
-    {
-        if(response.ok)
+let search_html = document.getElementById('search')
+let confirm_search_html = document.getElementById('searchConfirm')
+let container_html = document.getElementById('container')
+
+let url_search = ''
+
+
+let search = (e) => {
+    e.preventDefault()
+    url_search = `https://api.themoviedb.org/3/search/movie?api_key=f839e11b29ecba44216870b35571fbee&&query=${search_html.value.trim().replaceAll(' ', '-')}`
+    fetch(url_search)
+    .then(
+        (response) =>
         {
-            response.json()
-            .then(
-                function(rep){
-                    console.log(rep);
-                    document.getElementsByTagName('div')[0].innerHTML = rep.results[0].original_title
-                    document.getElementById('poster').src = 'https://image.tmdb.org/t/p/w500'+rep.results[0].poster_path
+            if(response.ok)
+            {
+                (rep) => 
+                {
+                    let film_card = document.createElement('div')
+                    film_card.setAttribute('id', 'reponse')
+                    document.getElementById("reponse").innerHTML=rep.results[0].original_title;
+
+                    
                 }
-            )
+            }
+            else
+            {
+                let film_card = document.createElement('div')
+                film_card.setAttribute('id', 'reponse')
+                document.getElementById("reponse").innerHTML=rep.results[0].original_title;
+            }
         }
-    }
-)
+    )
+}
+confirm_search_html.addEventListener('click', search)
