@@ -14,22 +14,42 @@ let search = (e) => {
         {
             if(response.ok)
             {
+                response.json()
+                .then(
                 (rep) => 
                 {
-                    let film_card = document.createElement('div')
-                    film_card.setAttribute('id', 'reponse')
-                    document.getElementById("reponse").innerHTML=rep.results[0].original_title;
+                    for(let i = 0; i < rep.results.length; i++)
+                    {
+                        let card = document.createElement('div')
+                        container_html.appendChild(card)
+                        card.setAttribute('class', 'card')
 
-                    
-                }
+                        let title = document.createElement('div')
+                        card.appendChild(title)
+                        title.setAttribute('class', 'title')
+                        title.innerHTML = rep.results[i].original_title
+
+                        let poster = document.createElement('div')
+                        card.appendChild(poster)
+                        poster.setAttribute('class', 'poster')
+                        let img_html = document.createElement('img')
+                        poster.appendChild(img_html)
+                        img_html.setAttribute('src', 'https://image.tmdb.org/t/p/w500'+rep.results[i].poster_path)
+
+
+                        let info_supp = document.createElement('div')
+                        card.appendChild(info_supp)
+                        info_supp.setAttribute('class', 'info_supp')
+                        info_supp.innerHTML = rep.results[i].overview
+                    }
+                })
             }
             else
-            {
-                let film_card = document.createElement('div')
-                film_card.setAttribute('id', 'reponse')
-                document.getElementById("reponse").innerHTML=rep.results[0].original_title;
+            {   
+            
+                container_html.innerHTML = '<h1>ERROR<h1>'
             }
         }
     )
-}
+}   
 confirm_search_html.addEventListener('click', search)
