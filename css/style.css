@@ -115,3 +115,6 @@ a:any-link, a:visited
 #pagination button{
     min-width: 75%;
 }
+#img_hidden{
+    margin:5px;
+}
