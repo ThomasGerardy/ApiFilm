@@ -9,6 +9,7 @@ let a_hidden_html = document.getElementById('a_hidden')
 let p_hidden_html = document.getElementById('p_hidden')
 let card_html = document.getElementsByClassName('card')
 let button_pag_html = document.querySelectorAll('button.pag')
+
 let cpt_page = 1
 let url_default = 'https://api.themoviedb.org/3/discover/movie?api_key=f839e11b29ecba44216870b35571fbee&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page='+ cpt_page
 function movie_main_page()
@@ -26,7 +27,6 @@ function movie_main_page()
                 .then(
                     function(rep)
                     {
-                        console.log(rep)
                         for(let i = 0; i < rep.results.length; i++)
                         {
                             let card = document.createElement('div')
@@ -45,7 +45,6 @@ function movie_main_page()
                             { 
                                 img_html.setAttribute('src', 'https://image.tmdb.org/t/p/w200/'+rep.results[i].poster_path)
                                 img_html.setAttribute('alt', rep.results[i].id)
-                                console.log(rep.results[i].id)
                             }
                                
                             else{
@@ -85,6 +84,7 @@ window.addEventListener("click", (event) =>
 {
     if(event.target == hidden_html)
         hidden_html.style.visibility ="hidden"
+       a_hidden_html.src = ""
 })
 
 function hidden_card(card)
@@ -121,35 +121,17 @@ function hidden_card(card)
                     let vid_key 
                     for(let i = 0; i < rep.results.length ; i++)
                     {
-                        console.log('test sisi')
                         if(rep.results[i].type == 'Trailer')
                             vid_key = rep.results[i].key
                     }
                     a_hidden_html.src = `https://www.youtube.com/embed/${vid_key}`
-                    // a_hidden_html.i
                 })
             }
         })
     })
 }
 
-//      A REVOIR => fonction pour faire un popup au click avec la descr du film
-// function read_more()
-// {
-    
-    
-//         for(let i = 0; i < card_html.length; i++)
-//         {
-            
-            
-//         }
-    
-// }
-// utiliser ça pour aller chercher les description : 
-// let info_supp = document.createElement('div')
-                            // card.appendChild(info_supp)
-                            // info_supp.setAttribute('class', 'info_supp')
-                            // info_supp.innerHTML = rep.results[i].overview
+
 movie_main_page()
 pag()
 

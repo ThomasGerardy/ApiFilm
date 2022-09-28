@@ -8,6 +8,9 @@ let a_hidden_html = document.getElementById('a_hidden')
 let p_hidden_html = document.getElementById('p_hidden')
 let card_html = document.getElementsByClassName('card')
 let button_pag_html = document.querySelectorAll('button.pag')
+let vid_html = document.getElementsByTagName('iframe')
+
+
 let cpt_page = 1
 let url_default = 'https://api.themoviedb.org/3/discover/movie?api_key=f839e11b29ecba44216870b35571fbee&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&primary_release_year=2020&with_watch_monetization_types=flatrate&page'+ cpt_page
 function movie_main_page_discovery()
@@ -99,33 +102,41 @@ function hidden_card(card)
             }
             else h_hidden_html.innerHTML = 'ERROR'
         })
-        let url_video = `https://api.themoviedb.org/3/movie/${card.children[0].children[0].alt}/videos?api_key=f839e11b29ecba44216870b35571fbee&language=en-US`
-        fetch(url_video)
-        .then((response) =>
-        {
-            if(response.ok)
-            {
-                response.json()
-                .then((rep) =>
-                {
-                    let vid_key 
-                    for(let i = 0; i < rep.results.length ; i++)
-                    {
-                        console.log('test sisi')
-                        if(rep.results[i].type == 'Trailer')
-                            vid_key = rep.results[i].key
-                    }
-                    a_hidden_html.src = `https://www.youtube.com/embed/${vid_key}`
-                })
-            }
-        })
+        addTrailer()
     })
 }
 window.addEventListener("click", (event) => 
 {
     if(event.target == hidden_html)
+    {
         hidden_html.style.visibility ="hidden"
+        // vid_html ??
+    }
 })
+
+function addTrailer()
+{
+    let url_video = `https://api.themoviedb.org/3/movie/${card.children[0].children[0].alt}/videos?api_key=f839e11b29ecba44216870b35571fbee&language=en-US`
+    fetch(url_video)
+    .then((response) =>
+    {
+        if(response.ok)
+        {
+            response.json()
+            .then((rep) =>
+            {
+                let vid_key 
+                for(let i = 0; i < rep.results.length ; i++)
+                {
+                    if(rep.results[i].type == 'Trailer')
+                        vid_key = rep.results[i].key
+                }
+                a_hidden_html.src = `https://www.youtube.com/embed/${vid_key}`
+            })
+                
+        }
+    })
+}
 
 movie_main_page_discovery()
 pag()
